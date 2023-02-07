@@ -1,0 +1,39 @@
+{
+    "controllers": {
+        "@symfony/ux-chartjs": {
+            "chart": {
+                "enabled": true,
+                "fetch": "eager"
+            }
+        },
+        "@symfony/ux-notify": {
+            "notify": {
+                "enabled": true,
+                "fetch": "eager"
+            }
+        },
+        "@symfony/ux-swup": {
+            "swup": {
+                "enabled": true,
+                "fetch": "eager"
+            }
+        },
+        "@symfony/ux-turbo": {
+            "turbo-core": {
+                "enabled": true,
+                "fetch": "eager"
+            },
+            "mercure-turbo-stream": {
+                "enabled": true,
+                "fetch": "eager"
+            }
+        },
+        "@symfony/ux-turbo-mercure": {
+            "turbo-stream": {
+                "enabled": true,
+                "fetch": "eager"
+            }
+        }
+    },
+    "entrypoints": []
+}
