@@ -1,4 +1,24 @@
 # Read the documentation: https://symfony.com/doc/current/bundles/FOSCKEditorBundle/index.html
+fos_ck_editor:
+    base_path: "build/ckeditor"
+    js_path: "build/ckeditor/ckeditor.js"
+    autoload: true
+
+    configs:
+        my_config_1:
+            toolbar: "my_toolbar_1"
+            uiColer: "#e2e2e2"
+
+        my_config_2:
+            toolbar: "my_toolbar_2"
+            uiColer: "#ff5640"
+
+    toolbars:
+        configs:
+            my_toolbar_1: ["@styles", "insert", "bold"]
+
+        items:
+            styles: ["Bold", "Italic", "Underline"]
 
 twig:
     form_themes:

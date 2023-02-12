@@ -1,0 +1,10 @@
+<turbo-stream action="append" target="storages">
+	<template>
+		{{ include('storage/_listrow.html.twig', { item: item }) }}
+	</template>
+</turbo-stream>
+<turbo-stream action="replace" target="newStorageForm">
+	<template>
+		{{ include('storage/_form.html.twig', { form: form }) }}
+	</template>
+</turbo-stream>

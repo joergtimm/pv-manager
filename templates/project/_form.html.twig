@@ -1,0 +1,41 @@
+{{ form_start(form) }}
+<div class="row">
+    <div class="col-9">
+<div class="row">
+    <div class="col-9">
+        {{ form_row(form.name) }}
+    </div>
+    <div class="col-3">
+        {{ form_row(form.status) }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-3">
+        {{ form_row(form.lat) }}
+    </div>
+    <div class="col-3">
+        {{ form_row(form.lon) }}
+    </div>
+    <div class="col-3">
+        {{ form_row(form.priority) }}
+    </div>
+    <div class="col-3">
+        {{ form_row(form.deadline) }}
+    </div>
+</div>
+    </div>
+    <div class="col-3">
+        <div class="card">
+            <div class="card-body">
+
+            </div>
+            <div class="card-footer">
+                {{ form_row(form.thumb) }}
+            </div>
+        </div>
+    </div>
+</div>
+
+    {{ form_widget(form) }}
+    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}

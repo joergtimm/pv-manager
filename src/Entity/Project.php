@@ -26,7 +26,7 @@ class Project
     private ?int $kwp = null;
 
     #[ORM\Column]
-    private ?int $einstrahlung = null;
+    private ?int $einstrahlung = 0;
 
     #[ORM\Column(nullable: true)]
     private ?float $lat = null;
@@ -58,10 +58,25 @@ class Project
     #[ORM\OneToMany(mappedBy: 'project', targetEntity: Dach::class)]
     private Collection $daches;
 
+    #[ORM\OneToMany(mappedBy: 'projekt', targetEntity: ProjectMember::class)]
+    private Collection $projectMembers;
+
+    #[ORM\OneToMany(mappedBy: 'project', targetEntity: Storage::class)]
+    private Collection $storages;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $slug = null;
+
+    #[ORM\OneToMany(mappedBy: 'project', targetEntity: Folder::class)]
+    private Collection $folders;
+
     public function __construct()
     {
         $this->wirtschaftlichkeitens = new ArrayCollection();
         $this->daches = new ArrayCollection();
+        $this->projectMembers = new ArrayCollection();
+        $this->storages = new ArrayCollection();
+        $this->folders = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -267,6 +282,108 @@ class Project
             // set the owning side to null (unless already changed)
             if ($dach->getProject() === $this) {
                 $dach->setProject(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ProjectMember>
+     */
+    public function getProjectMembers(): Collection
+    {
+        return $this->projectMembers;
+    }
+
+    public function addProjectMember(ProjectMember $projectMember): self
+    {
+        if (!$this->projectMembers->contains($projectMember)) {
+            $this->projectMembers->add($projectMember);
+            $projectMember->setProjekt($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProjectMember(ProjectMember $projectMember): self
+    {
+        if ($this->projectMembers->removeElement($projectMember)) {
+            // set the owning side to null (unless already changed)
+            if ($projectMember->getProjekt() === $this) {
+                $projectMember->setProjekt(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Storage>
+     */
+    public function getStorages(): Collection
+    {
+        return $this->storages;
+    }
+
+    public function addStorage(Storage $storage): self
+    {
+        if (!$this->storages->contains($storage)) {
+            $this->storages->add($storage);
+            $storage->setProject($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStorage(Storage $storage): self
+    {
+        if ($this->storages->removeElement($storage)) {
+            // set the owning side to null (unless already changed)
+            if ($storage->getProject() === $this) {
+                $storage->setProject(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(?string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Folder>
+     */
+    public function getFolders(): Collection
+    {
+        return $this->folders;
+    }
+
+    public function addFolder(Folder $folder): self
+    {
+        if (!$this->folders->contains($folder)) {
+            $this->folders->add($folder);
+            $folder->setProject($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFolder(Folder $folder): self
+    {
+        if ($this->folders->removeElement($folder)) {
+            // set the owning side to null (unless already changed)
+            if ($folder->getProject() === $this) {
+                $folder->setProject(null);
             }
         }
 

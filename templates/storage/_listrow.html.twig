@@ -1,0 +1,12 @@
+
+<li
+		class="list-group-item"
+		{{ stimulus_action('storages', 'selectStorage', 'click') }}
+		data-storage-id="{{ item.id }}"
+		{{ stimulus_target('storages', 'select') }}
+>
+
+	<i class="fa fa-camera me-2"></i>
+	{{ item.name }}
+
+</li>

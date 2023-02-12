@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\WirtschaftlichkeitenRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: WirtschaftlichkeitenRepository::class)]
@@ -63,6 +65,46 @@ class Wirtschaftlichkeiten
 
     #[ORM\Column(nullable: true)]
     private ?int $zinssatz = null;
+
+    #[ORM\Column]
+    private ?int $gesamt_leistung = null;
+
+    #[ORM\Column]
+    private ?int $strom_kwh_kwp = null;
+
+    #[ORM\Column]
+    private ?int $gesamt_netto = null;
+
+    #[ORM\Column]
+    private ?int $kwp_netto = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $inbetriebnahme_jahr = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $inbetriebnahme_monat = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $kwh_einspeisung = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $einspeiseverguetung = null;
+
+    #[ORM\OneToMany(mappedBy: 'wirtschaftlichkeit', targetEntity: Einnahmen::class)]
+    private Collection $einnahmens;
+
+    #[ORM\OneToMany(mappedBy: 'wirtschaftlichkeit', targetEntity: Kosten::class)]
+    private Collection $kostens;
+
+    #[ORM\OneToMany(mappedBy: 'wirtschaftlichkeit', targetEntity: Fremdkapital::class)]
+    private Collection $fremdkapitals;
+
+    public function __construct()
+    {
+        $this->einnahmens = new ArrayCollection();
+        $this->kostens = new ArrayCollection();
+        $this->fremdkapitals = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -269,6 +311,192 @@ class Wirtschaftlichkeiten
     public function setZinssatz(?int $zinssatz): self
     {
         $this->zinssatz = $zinssatz;
+
+        return $this;
+    }
+
+    public function getGesamtLeistung(): ?int
+    {
+        return $this->gesamt_leistung;
+    }
+
+    public function setGesamtLeistung(int $gesamt_leistung): self
+    {
+        $this->gesamt_leistung = $gesamt_leistung;
+
+        return $this;
+    }
+
+    public function getStromKwhKwp(): ?int
+    {
+        return $this->strom_kwh_kwp;
+    }
+
+    public function setStromKwhKwp(int $strom_kwh_kwp): self
+    {
+        $this->strom_kwh_kwp = $strom_kwh_kwp;
+
+        return $this;
+    }
+
+    public function getGesamtNetto(): ?int
+    {
+        return $this->gesamt_netto;
+    }
+
+    public function setGesamtNetto(int $gesamt_netto): self
+    {
+        $this->gesamt_netto = $gesamt_netto;
+
+        return $this;
+    }
+
+    public function getKwpNetto(): ?int
+    {
+        return $this->kwp_netto;
+    }
+
+    public function setKwpNetto(int $kwp_netto): self
+    {
+        $this->kwp_netto = $kwp_netto;
+
+        return $this;
+    }
+
+    public function getInbetriebnahmeJahr(): ?int
+    {
+        return $this->inbetriebnahme_jahr;
+    }
+
+    public function setInbetriebnahmeJahr(?int $inbetriebnahme_jahr): self
+    {
+        $this->inbetriebnahme_jahr = $inbetriebnahme_jahr;
+
+        return $this;
+    }
+
+    public function getInbetriebnahmeMonat(): ?int
+    {
+        return $this->inbetriebnahme_monat;
+    }
+
+    public function setInbetriebnahmeMonat(?int $inbetriebnahme_monat): self
+    {
+        $this->inbetriebnahme_monat = $inbetriebnahme_monat;
+
+        return $this;
+    }
+
+    public function getKwhEinspeisung(): ?int
+    {
+        return $this->kwh_einspeisung;
+    }
+
+    public function setKwhEinspeisung(?int $kwh_einspeisung): self
+    {
+        $this->kwh_einspeisung = $kwh_einspeisung;
+
+        return $this;
+    }
+
+    public function getEinspeiseverguetung(): ?int
+    {
+        return $this->einspeiseverguetung;
+    }
+
+    public function setEinspeiseverguetung(?int $einspeiseverguetung): self
+    {
+        $this->einspeiseverguetung = $einspeiseverguetung;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Einnahmen>
+     */
+    public function getEinnahmens(): Collection
+    {
+        return $this->einnahmens;
+    }
+
+    public function addEinnahmen(Einnahmen $einnahmen): self
+    {
+        if (!$this->einnahmens->contains($einnahmen)) {
+            $this->einnahmens->add($einnahmen);
+            $einnahmen->setWirtschaftlichkeit($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEinnahmen(Einnahmen $einnahmen): self
+    {
+        if ($this->einnahmens->removeElement($einnahmen)) {
+            // set the owning side to null (unless already changed)
+            if ($einnahmen->getWirtschaftlichkeit() === $this) {
+                $einnahmen->setWirtschaftlichkeit(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Kosten>
+     */
+    public function getKostens(): Collection
+    {
+        return $this->kostens;
+    }
+
+    public function addKosten(Kosten $kosten): self
+    {
+        if (!$this->kostens->contains($kosten)) {
+            $this->kostens->add($kosten);
+            $kosten->setWirtschaftlichkeit($this);
+        }
+
+        return $this;
+    }
+
+    public function removeKosten(Kosten $kosten): self
+    {
+        if ($this->kostens->removeElement($kosten)) {
+            // set the owning side to null (unless already changed)
+            if ($kosten->getWirtschaftlichkeit() === $this) {
+                $kosten->setWirtschaftlichkeit(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Fremdkapital>
+     */
+    public function getFremdkapitals(): Collection
+    {
+        return $this->fremdkapitals;
+    }
+
+    public function addFremdkapital(Fremdkapital $fremdkapital): self
+    {
+        if (!$this->fremdkapitals->contains($fremdkapital)) {
+            $this->fremdkapitals->add($fremdkapital);
+            $fremdkapital->setWirtschaftlichkeit($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFremdkapital(Fremdkapital $fremdkapital): self
+    {
+        if ($this->fremdkapitals->removeElement($fremdkapital)) {
+            // set the owning side to null (unless already changed)
+            if ($fremdkapital->getWirtschaftlichkeit() === $this) {
+                $fremdkapital->setWirtschaftlichkeit(null);
+            }
+        }
 
         return $this;
     }

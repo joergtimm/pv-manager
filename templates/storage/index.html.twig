@@ -1,0 +1,37 @@
+{% block title %}Storage index{% endblock %}
+<turbo-frame class="list-group list-group-docs" id="storages">
+{% block body %}
+    <h1>Storage index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Position</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for storage in storages %}
+            <tr>
+                <td>{{ storage.id }}</td>
+                <td>{{ storage.name }}</td>
+                <td>{{ storage.type }}</td>
+                <td>{{ storage.position }}</td>
+                <td>
+                    <a href="{{ path('app_storage_show', {'id': storage.id}) }}">show</a>
+                    <a href="{{ path('app_storage_edit', {'id': storage.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_storage_new') }}">Create new</a>
+{% endblock %}

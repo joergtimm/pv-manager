@@ -1,0 +1,9 @@
+<turbo-frame class="list-group list-group-flush" id="storages" {{ stimulus_target('storages', 'select') }} {{ stimulus_controller('sort-helper', {
+	sortUrl: path('admin_sort_storages', { id: project.id })
+}) }}>
+	{% for item in items %}
+		{{ include('storage/_listrow.html.twig') }}
+	{% endfor %}
+</turbo-frame>
+
+
